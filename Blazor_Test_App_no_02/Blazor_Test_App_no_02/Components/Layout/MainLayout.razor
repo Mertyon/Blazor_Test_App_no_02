@@ -1,5 +1,34 @@
 ﻿@inherits LayoutComponentBase
 
+<style>
+    .page {
+        /* Setting relative position */
+        position: relative;
+    }
+
+        .page::before {
+            /* Creating a pseudo-element that will act as a background with transparency */
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('img/Logo.jpg'); /* Path to your logo */
+            background-size: cover; /* Adjusting background size to content */
+            background-repeat: no-repeat; /* Preventing background repetition */
+            background-attachment: scroll; /* Keeping the background in a fixed position while scrolling */
+            background-position: center center; /* Setting the background position */
+            /* Transparency only for the background */
+            opacity: 0.22; /* Transparency value */
+            z-index: -5; /*Layers -5 to be safe*/
+        }
+
+    /* Other styles for elements on the page */
+
+    /* Additional style for error-ui */
+</style>
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,7 +36,7 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0?autoplay=1" target="_blank">Immediate help</a>
         </div>
 
         <article class="content px-4">

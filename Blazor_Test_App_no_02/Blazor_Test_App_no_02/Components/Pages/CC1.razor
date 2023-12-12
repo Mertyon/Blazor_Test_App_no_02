@@ -1,0 +1,63 @@
+﻿@page "/CC1"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>CC1</PageTitle>
+
+<!-- Dodanie stylów -->
+<style>
+    /* Resetowanie domyślnych stylów */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Stylowanie kontenera */
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* Stylowanie nagłówka */
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    /* Stylowanie paragrafu */
+    p {
+        font-size: 1rem;
+        color: #888;
+        margin-bottom: 30px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+</style>
+
+
+<div class="container">
+    <h1>Linki do Urządzeń</h1>
+</div>
+
+
+<div class="nav-item px-3">
+    <NavLink class="nav-link" href="/CC1/Trubio">
+        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Trubio
+    </NavLink>
+</div>
+
+@code {
+
+}
