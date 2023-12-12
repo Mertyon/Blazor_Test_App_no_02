@@ -1,0 +1,200 @@
+﻿@page "/wnioski"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Wnioski</PageTitle>
+
+<!-- Dodanie stylów -->
+<style>
+    /* Resetowanie domyślnych stylów */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Stylowanie kontenera */
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* Stylowanie nagłówka */
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    /* Stylowanie paragrafu */
+    p {
+        font-size: 1rem;
+        color: #888;
+        margin-bottom: 30px;
+    }
+
+    /* Stylowanie pól formularza */
+    .form-field {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Stylowanie rozwijanej listy */
+    .dropdown {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Stylowanie przycisku */
+    .submit-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Stylowanie checkboxa */
+    .confirmation-checkbox {
+        margin-right: 5px;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <h1>Uzupełnij poniższe pola zgodnie z opisem</h1>
+    <p>Logo, czy coś</p>
+
+    <!-- Imię -->
+    <div class="form-field">
+        <label for="firstName">Imię:</label>
+        <input type="text" id="firstName" @bind="FirstName" class="form-input" />
+    </div>
+
+    <!-- Nazwisko -->
+    <div class="form-field">
+        <label for="lastName">Nazwisko:</label>
+        <input type="text" id="lastName" @bind="LastName" class="form-input" />
+    </div>
+
+    <!-- Drop down pierwszy -->
+    <div class="form-field">
+        <label for="firstDropdown">Wybierz urządzenie:</label>
+        <select id="firstDropdown" @onchange="UpdateSecondDropdown" class="dropdown">
+            <option value="">Wybierz</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <!-- Drop down drugi -->
+    <div class="form-field">
+        <label for="secondDropdown">Wybierz uprawnienie:</label>
+        <select id="secondDropdown" @bind="SecondDropdownValue" class="dropdown">
+            <option value="">Wybierz opcję</option> <!-- Dodane domyślne opcje -->
+            @if (SecondDropdownOptions != null && SecondDropdownOptions.Count > 0)
+            {
+                @foreach (var option in SecondDropdownOptions)
+                {
+                    <option value="@option">@option</option>
+                }
+            }
+            else
+            {
+                <option value="">Brak dostępnych opcji</option> <!-- Dodanie informacji o braku opcji -->
+            }
+        </select>
+    </div>
+
+    <div class="form-field">
+        <button class="submit-button">Print</button>
+    </div>
+</div>
+
+@code {
+    private string FirstName { get; set; } = string.Empty;
+    private string LastName { get; set; } = string.Empty;
+    private string FirstDropdownValue { get; set; } = string.Empty;
+    private string SecondDropdownValue { get; set; } = string.Empty;
+    private List<string> SecondDropdownOptions { get; set; } = new List<string>(); // Inicjalizacja jako pusta lista
+
+
+    private async Task UpdateSecondDropdown(ChangeEventArgs e)
+    {
+        string selectedValue = e.Value?.ToString();
+        if (!string.IsNullOrEmpty(selectedValue))
+        {
+            FirstDropdownValue = selectedValue;
+
+            // Aktualizacja opcji w drugim dropdownie
+            SecondDropdownOptions = GetSecondDropdownOptions();
+            SecondDropdownValue = ""; // Zresetowanie wybranej wartości w drugim dropdownie
+
+            // Wywołanie popupu
+            await ShowPopup("To jest mój popup!");
+            // Ręczne odświeżenie komponentu
+            StateHasChanged();
+        }
+        else
+        {
+            // Wywołanie popupu gdy wartość pierwszego dropdowna jest null
+            await ShowPopup("Wartość pierwszego dropdowna jest wymagana!");
+        }
+    }
+
+    private async Task ShowPopup(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("alert", message);
+    }
+
+
+    private List<string> GetSecondDropdownOptions()
+    {
+        List<string> options = new List<string>();
+
+        switch (FirstDropdownValue)
+        {
+            case "1":
+                options.AddRange(new List<string> { "1a", "1b", "1c" });
+                break;
+            case "2":
+                options.AddRange(new List<string> { "2a", "2b", "2c" });
+                break;
+            case "3":
+                options.AddRange(new List<string> { "3a", "3b", "3c" });
+                break;
+            default:
+                options.Add("Brak dostępnych opcji");
+                break;
+        }
+
+        return options;
+    }
+}
