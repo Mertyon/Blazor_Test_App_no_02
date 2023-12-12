@@ -38,7 +38,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
@@ -52,6 +52,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'BlazorTestAppno02'
-          slot-name: 'Production'
+          slot-name: 'production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B5247C3520D6415DA2AC4C74C97DA794 }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_b8963a3614a746ac87321384b617b7da }}
